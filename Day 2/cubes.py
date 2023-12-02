@@ -1,4 +1,3 @@
-from pprint import pprint
 GAMES = {}
 BAG_LIMIT = (12, 13, 14)
 
@@ -6,9 +5,11 @@ def main():
     with open('input.txt') as file:
         for line in file:
             parse_game(line)
+            least_values = minimum_values(GAMES)
     print(f"The sum of IDs of possible games is: {check_possible(GAMES)}" )
-
-
+    
+    print("The sum of power of the min-max sets:",sum(power_cubes(least_values)))
+    
 def parse_game(line):
     line_as_list = line.split(" ")
     
@@ -20,7 +21,6 @@ def parse_game(line):
         
         if "red" in value:
             rgb_tuple[0] += int(line_as_list[index - 1])
-
         if "green" in value:
             rgb_tuple[1] += int(line_as_list[index - 1])
         if "blue" in value:
@@ -49,6 +49,29 @@ def check_possible(games):
             possible_games += game_number
             
     return possible_games
+
+def minimum_values(games):
+    min_dict = {}
+    for gameno in games:
+        min_values = [0, 0, 0]
+        sets = games[gameno]
+        for i in range(3):
+            for set in sets:
+                if set[i] > min_values[i]:
+                    min_values[i] = set[i]
+        min_dict[gameno] = min_values
+    return min_dict
+                
+def power_cubes(least_dict):
+    powers = []
+    for gameno in least_dict:
+        power = 1
+        for value in least_dict[gameno]:
+            power *= value
+        powers.append(power)
+    
+    return powers
+
 
 if __name__ == "__main__":
     main()

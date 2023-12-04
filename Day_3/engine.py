@@ -3,19 +3,21 @@ import string
 
 SCHEMATIC = []
 SKELETON = []
-TOTAL = 0
+PARTSUM = 0
+GEARSUM = 0
 CHARACTERS = list(string.punctuation)
 
 
 def main():
-    with open("input.txt") as file:
+    with open("test_input.txt") as file:
         for line in file:
             render_map(line)
             render_dummy_map(line)
     check_vicinity()
     #pprint(SCHEMATIC)
     #print(SKELETON)
-    print(TOTAL)
+    print(f"The sum of all part numbers in the schematic is: {PARTSUM}")
+    print(f"The sum of all gear ratios in the schematic is: {GEARSUM}")
 
 def render_map(line):
     row = []
@@ -36,7 +38,7 @@ def render_dummy_map(line):
 
 
 def check_vicinity():
-    global TOTAL
+    global PARTSUM
     for rowno, row in enumerate(SCHEMATIC):
         charno = 0
         for colno, val in enumerate(row):
@@ -62,17 +64,57 @@ def check_vicinity():
                 for neighbour in neighbours:
                     if neighbour in CHARACTERS:
                         if neighbour != "." and neighbour != "\n":
-                            TOTAL += int(val)
+                            PARTSUM += int(val)
                             break
+            
+            # The faulty gear?
+            if val == "*":
+                lower_row_neighbours = []
+                upper_row_neighbours = []
+                row_neighbours = [row[colno -1], row[colno +1]]
 
-                # for i in range(rowno - 1, rowno + 2):
-                #     for j in range(colno - 1, colno + len(val)):
-                #         if i >= 0 and j >= 0:
-                #             print(i, j)
-                #             if (SCHEMATIC[i][j]) in ['*', '#', '+', "$"]:
-                #                 # print(val)
-                #                 TOTAL += int(val)
-
+                if (rowno - 1) >= 0:
+                    upper_row = SKELETON[rowno - 1]
+                    num = ""
+                    for i in range(charno - len(val) - 1 , charno + 1):
+                        if i < len(upper_row):
+                            if upper_row[i].isdigit():
+                                j = i
+                                while upper_row[j].isdigit():
+                                    num += upper_row[j]
+                                    j = j - 1
+                                num = num[::-1]
+                                while upper_row[j].isdigit():
+                                    num += upper_row[j]
+                                    j = j + 1
+                            else:
+                                if num != "":
+                                    upper_row_neighbours.append(num)
+                                    num = ""
+                                upper_row_neighbours.append(upper_row[i])
+                
+                if (rowno + 1) < len(SKELETON):
+                    lower_row = SKELETON[rowno + 1]
+                    num = ""
+                    for j in range(charno - len(val) - 1 , charno + 1):
+                        if j < len(lower_row):  
+                            if lower_row[i].isdigit():
+                                j = i
+                                while lower_row[j].isdigit():
+                                    num += lower_row[j]
+                                    j = j - 1
+                                num = num[::-1]
+                                while lower_row[j].isdigit():
+                                    num += lower_row[j]
+                                    j = j + 1
+                            else:
+                                if num != "":
+                                    lower_row_neighbours.append(num)
+                                    num = ""
+                                lower_row_neighbours.append(lower_row[i])
+                        
+                neighbours = [lower_row_neighbours, row_neighbours, upper_row_neighbours]
+                print(neighbours)
 
 if __name__ == "__main__":
     main()

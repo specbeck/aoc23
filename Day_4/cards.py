@@ -2,7 +2,7 @@ import re
 SUM = 0
 
 def main():
-    with open("test_input.txt") as file:
+    with open("input.txt") as file:
         scratchcards = []
         for line in file:
             win, draw = parse_line(line)
@@ -45,17 +45,22 @@ def parse_line(line):
     return parsed_win, parsed_lot
 
 def calculate_points(winning, drawing):
-    points = 0
-    value = 1
-    consecutive_matches = 0
-    for i, num in enumerate(drawing):
+    matches = -1
+    for num in drawing:
         if num in winning:
-            #print(num)
-            consecutive_matches += 1
-            for _ in range(1, consecutive_matches + 1):
-                value *= 2
-            points += value
-        consecutive_matches = 0
+            #print(num)     
+            matches += 1
+
+    if matches == 0:
+        points = 1
+    elif matches == -1:
+        points = 0
+    else:
+        points = 2 ** matches
+        #     for _ in range(1, consecutive_matches + 1):
+        #         value *= 2
+        #     points += value
+        # consecutive_matches = 0
     #print(points)
     return points
 

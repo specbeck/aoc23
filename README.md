@@ -21,3 +21,7 @@ Now this was something tricky, I don't know if my approach was the way to go, bu
 ### Day 4: Scratchcards
 
 The problem was all good, but the bonus stacking instructions were unclear at the beginning, once I saw the logic on reddit, it didn't take me that long. (My laptop froze a bit for Part II, prolly due to my bad code :))
+
+### Day 5: If you give a seed a fertilizer
+
+Too much to parse, too much logic to implement, too big numbers in input, too large numbers to crunch. Just too much wrong with this one

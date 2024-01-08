@@ -29,3 +29,7 @@ Too much to parse, too much logic to implement, too big numbers in input, too la
 ### Day 6: Wait for it
 
 Fairly easy logic to wrap me mind around, was a good relief after such monster puzzles before. Also, this puzzle made me realize how stupid I am and also how small changes in code can make huge differences
+
+---
+_Completely unreasonable excuse of exams because its conventional to do so_
+---

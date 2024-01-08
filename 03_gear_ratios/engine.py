@@ -75,9 +75,11 @@ def check_vicinity():
 
                 if (rowno - 1) >= 0:
                     upper_row = SKELETON[rowno - 1]
+                    actual_row = SCHEMATIC[rowno - 1]
                     num = ""
                     for i in range(charno - len(val) - 1 , charno + 1):
                         if i < len(upper_row):
+                            print(find_actual_index(actual_row, i))
                             if upper_row[i].isdigit():
                                 j = i
                                 while upper_row[j].isdigit():
@@ -115,6 +117,22 @@ def check_vicinity():
                         
                 neighbours = [lower_row_neighbours, row_neighbours, upper_row_neighbours]
                 print(neighbours)
+
+def find_actual_index(row, charno):
+    index = 0
+    char_count = 0
+    print(row)
+    for char in row:
+        #print(char)
+        while char_count <= charno:
+            if char.isnumeric():
+                index += len(char) - (len(char) - 1)
+                char_count += len(char)
+            else:
+                index += 1
+                char_count += 1
+    return index
+
 
 if __name__ == "__main__":
     main()
